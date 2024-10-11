@@ -35,11 +35,31 @@ selected_years = st.sidebar.multiselect(label='Years', options=years, default=[2
 
 # tbl = tbl[[2000, 2001, 2002, 2003, 2004]]
 
-tbl = tbl[selected_years]
+# tbl = tbl[selected_years]
 
 initial_values = tbl.iloc[0]
 
 tbl_pct_chg = tbl.apply(lambda elt: (elt - initial_values[elt.name]) / initial_values[elt.name] * 100)
+
+# tbl_pct_chg.max()
+
+# tbl_pct_chg.max(axis=0)
+
+# tbl_pct_chg.max(axis=1)
+
+if st.sidebar.checkbox('Show max and min', value=False):
+
+    tbl_pct_chg['max'] = tbl_pct_chg.max(axis=1)
+
+    tbl_pct_chg['min'] = tbl_pct_chg.min(axis=1)
+
+    selected_years = selected_years + ['max', 'min']
+
+tbl_pct_chg = tbl_pct_chg[selected_years]
+
+# tbl_pct_chg['max']
+
+
 
 fig = px.line(tbl_pct_chg)
 
