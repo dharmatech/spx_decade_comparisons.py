@@ -20,14 +20,26 @@ df['year'] = df['Date'].dt.year
 # ----------------------------------------------------------------------
 tbl = pd.DataFrame()
 
+number_of_years = st.sidebar.number_input(label='Number of years', min_value=1, max_value=100, value=10)
+
+# for year in df['year'].unique():
+#     start_date = f'{year}-01-01'
+#     end_date   = f'{year + 10}-01-01'
+#     filtered_df = df[(df['Date'] >= start_date) & (df['Date'] < end_date)]
+
+#     filtered_df = filtered_df.reset_index()
+
+#     tbl[year] = filtered_df['Close']
+
 for year in df['year'].unique():
     start_date = f'{year}-01-01'
-    end_date   = f'{year + 10}-01-01'
+    end_date   = f'{year + number_of_years}-01-01'
     filtered_df = df[(df['Date'] >= start_date) & (df['Date'] < end_date)]
 
     filtered_df = filtered_df.reset_index()
 
     tbl[year] = filtered_df['Close']
+
 
 years = df['year'].unique()
 
@@ -40,6 +52,14 @@ selected_years = st.sidebar.multiselect(label='Years', options=years, default=[2
 initial_values = tbl.iloc[0]
 
 tbl_pct_chg = tbl.apply(lambda elt: (elt - initial_values[elt.name]) / initial_values[elt.name] * 100)
+
+tmp = tbl_pct_chg.transpose()
+
+tmp.iloc[:,0]
+
+tmp = tmp.iloc[:,-1]
+
+tmp[tmp < 0]
 
 # tbl_pct_chg.max()
 
