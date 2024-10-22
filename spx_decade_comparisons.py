@@ -75,9 +75,11 @@ if st.sidebar.checkbox('Show max and min', value=False):
     selected_years = selected_years + ['max', 'min']
 
 # ----------------------------------------------------------------------
-st.sidebar.write(f'### Down years {len(down_years)}:')
+if st.sidebar.checkbox('Show negative spans', value=False):
 
-st.sidebar.dataframe(data=down_years, hide_index=True)
+    st.sidebar.write(f'### Negative spans {len(down_years)}:')
+
+    st.sidebar.dataframe(data=down_years, hide_index=True)
 # ----------------------------------------------------------------------
 tbl_pct_chg = tbl_pct_chg[selected_years]
 
